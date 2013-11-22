@@ -1,0 +1,95 @@
+<script>
+  var one_hour = 60* 60;
+  window.schedule_delta = one_hour;
+
+  window.time_delta = (new Date().getTime() / 1000) - <%= Time.now.to_i %>;
+  window.schedule = <%= raw @schedule.sessions.to_json %>;
+
+  window.ruby_timestamp = function() {
+    return (new Date().getTime() / 1000) - time_delta - window.schedule_delta;
+  }
+
+  window.current_session = function() {
+    var current_time = window.ruby_timestamp();
+
+    var last_session = null;
+    for (var i = 0; i < schedule.length; i++) {
+      var session = schedule[i];
+      if (session['timestamp'] > current_time) {
+        return last_session;
+      }
+      last_session = session;
+    }
+    return last_session;
+  }
+
+  window.next_session = function() {
+    var current_time = window.ruby_timestamp();
+
+    for (var i = 0; i < schedule.length; i++) {
+      var session = schedule[i];
+      if (session['timestamp'] > current_time) {
+        return session;
+      }
+    }
+    return null;
+  }
+
+  window.time_to_session = function(session) {
+    return session['timestamp'] - window.ruby_timestamp();
+  }
+
+  var updateNow = function() {
+    var session = current_session();
+    var container = document.getElementById('now');
+
+    if (session === null) {
+      container.style.display = 'none';
+      return;
+    }
+
+    var h1 = document.querySelectorAll('#now h1')[0];
+    h1.innerText = session.info;
+  }
+
+  var updateNext = function() {
+    var session = next_session();
+    var container = document.getElementById('next');
+
+    if (session === null) {
+      container.style.display = 'none';
+      return;
+    }
+
+    var h1 = document.querySelectorAll('#next h1')[0];
+    h1.innerText = session.info;
+
+    var minutesLeft = parseInt(window.time_to_session(session) / 60, 10);
+    console.log(window.time_to_session(session))
+    var timeLeftBox = document.querySelectorAll('#time-left')[0];
+
+    timeLeftBox.innerText = minutesLeft > 0 ? ("in " + minutesLeft + " " + (minutesLeft > 1 ? 'minutes' : 'minute')) : 'any minute'
+  }
+
+  setInterval(function() {
+    updateNow();
+    updateNext();
+  }, 1000)
+</script>
+
+<div id="container">
+  <div id="content">
+    <div id="now">
+      <h2>Now</h2>
+      <h1></h1>
+    </div>
+
+    <div id="next">
+      <h2>Coming up</h2>
+      <h1></h1>
+
+      <div id="time-left">
+      </div>
+    </div>
+  </div>
+</div>

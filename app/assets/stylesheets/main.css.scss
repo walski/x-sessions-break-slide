@@ -1,0 +1,44 @@
+#container {
+  width: 1920px;
+  height: 1080px;
+
+  background: url('/x.png') left top;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+
+  #content {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 800px;
+    top: 150px;
+    width: 1120px;
+    height: 1080px;
+
+    font-family: Arial;
+
+    h2 {
+      font-size: 36pt;
+      color: #808080;
+      margin-bottom: 0;
+    }
+
+    h1 {
+      font-size: 64pt;
+      margin-top: 5px;
+    }
+
+    #time-left {
+      position: absolute;
+      bottom: 250px;
+      width: 1120px;
+      height: 300px;
+
+      font-size: 96pt;
+      text-align: left;
+      border-top: 1px solid;
+      padding-top: 20px;
+    }
+  }
+}
