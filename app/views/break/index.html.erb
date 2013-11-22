@@ -65,7 +65,6 @@
     h1.innerText = session.info;
 
     var minutesLeft = parseInt(window.time_to_session(session) / 60, 10);
-    console.log(window.time_to_session(session))
     var timeLeftBox = document.querySelectorAll('#time-left')[0];
 
     timeLeftBox.innerText = minutesLeft > 0 ? ("in " + minutesLeft + " " + (minutesLeft > 1 ? 'minutes' : 'minute')) : 'any minute'
