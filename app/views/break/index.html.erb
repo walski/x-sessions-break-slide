@@ -1,6 +1,6 @@
 <script>
   var one_hour = 60* 60;
-  window.schedule_delta = one_hour;
+  window.schedule_delta = 0; //one_hour;
 
   window.time_delta = (new Date().getTime() / 1000) - <%= Time.now.to_i %>;
   window.schedule = <%= raw @schedule.sessions.to_json %>;
